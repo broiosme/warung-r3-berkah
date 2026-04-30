@@ -1,3 +1,31 @@
+// Mobile Hamburger Menu Toggle
+function toggleMobileMenu() {
+  const nav = document.getElementById('nav-menu');
+  const hamburger = document.getElementById('hamburger-btn');
+  nav.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+
+// Close mobile menu when a nav link is clicked or clicking outside
+document.addEventListener('click', (e) => {
+  const nav = document.getElementById('nav-menu');
+  const hamburger = document.getElementById('hamburger-btn');
+  
+  if (!nav || !hamburger) return;
+
+  // Close if clicking a link
+  if (e.target.matches('nav a')) {
+    nav.classList.remove('open');
+    hamburger.classList.remove('active');
+  }
+  
+  // Close if clicking outside the menu and hamburger button
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+    nav.classList.remove('open');
+    hamburger.classList.remove('active');
+  }
+});
+
 // Navbar Scroll Effect
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');

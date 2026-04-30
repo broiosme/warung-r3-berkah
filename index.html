@@ -34,7 +34,12 @@
         </div>
 
       </a>
-      <nav>
+      <button class="hamburger" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="nav-menu">
         <ul>
           <li><a href="#home" class="nav-link active">Beranda</a></li>
           <li><a href="#menu" class="nav-link">Menu</a></li>
@@ -43,8 +48,6 @@
           <li><a href="#why-us" class="nav-link">Keunggulan</a></li>
         </ul>
       </nav>
-      <!-- Empty div for desktop actions alignment -->
-      <div style="width: 40px;" class="hidden-mobile"></div>
     </div>
   </header>
 
