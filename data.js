@@ -42,7 +42,7 @@ const foods = [
     price: "Rp 10.000",
     likes: 189,
     rating: 4.6,
-    image: "assets/tahu kocek.jpg",
+    image: "assets/tahu-kocek.png",
     color: "#4CAF50",
     description: "Tahu goreng krispi yang dikocek dengan bumbu rahasia R3 yang pedas dan menggugah selera.",
     ingredients: ["Tahu Putih", "Tepung Krispi", "Bumbu Kocek R3", "Cabai Rawit"],
@@ -73,29 +73,53 @@ const foods = [
   },
 ];
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Budi Santoso",
-    role: "Pelanggan Setia",
-    comment: "Seblaknya bener-bener mantap! Bumbunya meresap dan pedasnya pas banget di lidah.",
-    rating: 5,
-    avatar: "https://i.pravatar.cc/150?u=budi"
-  },
-  {
-    id: 2,
-    name: "Siti Aminah",
-    role: "Pecinta Pedas",
-    comment: "Sosis koceknya juara, bumbunya beda dari yang lain. Tahu koceknya juga krispi banget.",
-    rating: 5,
-    avatar: "https://i.pravatar.cc/150?u=siti"
-  },
-  {
-    id: 3,
-    name: "Andi Wijaya",
-    role: "Pelajar",
-    comment: "Harganya ramah di kantong pelajar, porsinya banyak. Es campurnya seger banget abis makan yang pedes-pedes.",
-    rating: 4,
-    avatar: "https://i.pravatar.cc/150?u=andi"
-  }
-];
+// const testimonials = [
+//   {
+//     id: 1,
+//     name: "Budi Santoso",
+//     role: "Pelanggan Setia",
+//     comment: "Seblaknya bener-bener mantap! Bumbunya meresap dan pedasnya pas banget di lidah.",
+//     rating: 5,
+//     avatar: "https://i.pravatar.cc/150?u=budi"
+//   },
+//   {
+//     id: 2,
+//     name: "Siti Aminah",
+//     role: "Pecinta Pedas",
+//     comment: "Sosis koceknya juara, bumbunya beda dari yang lain. Tahu koceknya juga krispi banget.",
+//     rating: 5,
+//     avatar: "https://i.pravatar.cc/150?u=siti"
+//   },
+//   {
+//     id: 3,
+//     name: "Andi Wijaya",
+//     role: "Pelajar",
+//     comment: "Harganya ramah di kantong pelajar, porsinya banyak. Es campurnya seger banget abis makan yang pedes-pedes.",
+//     rating: 4,
+//     avatar: "https://i.pravatar.cc/150?u=andi"
+//   },
+//   {
+//     id: 4,
+//     name: "Rina Kartika",
+//     role: "Ibu Rumah Tangga",
+//     comment: "Camilan favorit keluarga! Tahu koceknya nagih banget, anak-anak juga suka sosis bakarnya karena sausnya enak.",
+//     rating: 5,
+//     avatar: "https://i.pravatar.cc/150?u=rina"
+//   },
+//   {
+//     id: 5,
+//     name: "Dedi Kurniawan",
+//     role: "Ojek Online",
+//     comment: "Sering dapet orderan di sini, emang baunya wangi banget bikin pengen beli terus. Akhirnya nyoba sendiri emang mantap!",
+//     rating: 5,
+//     avatar: "https://i.pravatar.cc/150?u=dedi"
+//   },
+//   {
+//     id: 6,
+//     name: "Maya Sari",
+//     role: "Food Blogger",
+//     comment: "Seblak dengan kearifan lokal yang dieksekusi dengan sangat baik. Kebersihan tempat dan pelayanannya jempolan.",
+//     rating: 5,
+//     avatar: "https://i.pravatar.cc/150?u=maya"
+//   }
+// ];

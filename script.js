@@ -10,7 +10,7 @@ function toggleMobileMenu() {
 document.addEventListener('click', (e) => {
   const nav = document.getElementById('nav-menu');
   const hamburger = document.getElementById('hamburger-btn');
-  
+
   if (!nav || !hamburger) return;
 
   // Close if clicking a link
@@ -18,7 +18,7 @@ document.addEventListener('click', (e) => {
     nav.classList.remove('open');
     hamburger.classList.remove('active');
   }
-  
+
   // Close if clicking outside the menu and hamburger button
   if (nav.classList.contains('open') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
     nav.classList.remove('open');
@@ -55,35 +55,100 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// Render Menu Cards (Carousel)
-function renderMenu() {
+// Render Menu Cards (Carousel) with Filter Support
+function renderMenu(filter = 'all') {
   const container = document.getElementById('food-carousel');
   if (!container) return;
 
-  foods.forEach(food => {
-    const wrap = document.createElement('div');
-    wrap.className = 'food-card-wrap';
-    wrap.innerHTML = `
-      <div class="food-card">
-        <h3 class="card-title">${food.name}</h3>
-        <div class="card-stats">
-          <div class="stat-pill heart">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            ${food.likes}
+  // Show Skeleton Loading State
+  container.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const skeleton = document.createElement('div');
+    skeleton.className = 'skeleton-card skeleton';
+    container.appendChild(skeleton);
+  }
+
+  // Simulate loading delay for "premium" feel and to show skeleton
+  setTimeout(() => {
+    container.innerHTML = '';
+
+    const filteredFoods = filter === 'all'
+      ? foods
+      : foods.filter(food => food.category === filter);
+
+    filteredFoods.forEach((food, index) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'food-card-wrap';
+      wrap.setAttribute('data-aos', 'fade-up');
+      wrap.setAttribute('data-aos-delay', (index % 4) * 100);
+      wrap.innerHTML = `
+        <div class="food-card">
+          <h3 class="card-title">${food.name}</h3>
+          <div class="card-stats">
+            <div class="stat-pill heart">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              ${food.likes}
+            </div>
+            <div class="stat-pill star">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              ${food.rating}
+            </div>
           </div>
-          <div class="stat-pill star">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            ${food.rating}
-          </div>
+          <a href="detail.html?id=${food.id}" class="btn-detail">Lihat Detail</a>
         </div>
-        <a href="detail.html?id=${food.id}" class="btn-detail">Lihat Detail</a>
+        <div class="food-card-img-box">
+          <img src="${food.image}" alt="${food.name}">
+          <div class="card-price-badge">${food.price}</div>
+        </div>
+      `;
+      container.appendChild(wrap);
+    });
+
+    if (typeof AOS !== 'undefined') AOS.refresh();
+  }, 400); // 400ms is perfect for a quick but visible skeleton
+}
+
+// Render Testimonials
+function renderTestimonials() {
+  const container = document.getElementById('testimonials-grid');
+  if (!container || typeof testimonials === 'undefined') return;
+
+  testimonials.forEach((testi, index) => {
+    const stars = '★'.repeat(testi.rating) + '☆'.repeat(5 - testi.rating);
+    const card = document.createElement('div');
+    card.className = 'testimonial-card';
+    card.setAttribute('data-aos', 'fade-up');
+    card.setAttribute('data-aos-delay', (index % 3) * 150);
+    card.innerHTML = `
+      <div class="testi-header">
+        <img src="${testi.avatar}" alt="${testi.name}" class="testi-avatar">
+        <div>
+          <div class="testi-name">${testi.name}</div>
+          <div class="testi-role">${testi.role}</div>
+        </div>
       </div>
-      <div class="food-card-img-box">
-        <img src="${food.image}" alt="${food.name}">
-        <div class="card-price-badge">${food.price}</div>
-      </div>
+      <div class="testi-rating">${stars}</div>
+      <p class="testi-comment">"${testi.comment}"</p>
     `;
-    container.appendChild(wrap);
+    container.appendChild(card);
+  });
+
+  if (typeof AOS !== 'undefined') AOS.refresh();
+}
+
+// Filter Logic Initialization
+function initFilters() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update UI
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Render filtered
+      const category = btn.getAttribute('data-category');
+      renderMenu(category);
+    });
   });
 }
 
@@ -93,9 +158,11 @@ function renderTopFoods() {
   if (!container) return;
 
   // Take first 4 as top foods
-  foods.slice(0, 4).forEach(food => {
+  foods.slice(0, 4).forEach((food, index) => {
     const item = document.createElement('div');
     item.className = 'top-food-item';
+    item.setAttribute('data-aos', 'zoom-in');
+    item.setAttribute('data-aos-delay', index * 100);
     item.innerHTML = `
       <div class="top-food-img-box">
         <img src="${food.image}" alt="${food.name}" class="top-food-img">
@@ -109,6 +176,8 @@ function renderTopFoods() {
     item.onclick = () => window.location.href = `detail.html?id=${food.id}`;
     container.appendChild(item);
   });
+
+  if (typeof AOS !== 'undefined') AOS.refresh();
 }
 
 // Carousel Navigation
@@ -178,22 +247,44 @@ function loadDetail() {
 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
-  // Hide loader after a small delay for smooth feel
-  window.addEventListener('load', () => {
+  // Robust Loader Hiding
+  const hideLoader = () => {
     const loader = document.getElementById('loader');
     if (loader) {
       setTimeout(() => {
         loader.classList.add('hidden');
-      }, 2500); // Increased duration to appreciate the animation
+        // Refresh AOS to catch Beranda animations after loader is gone
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
+        }
+      }, 1500); 
     }
+  };
 
-  });
+  if (document.readyState === 'complete') {
+    hideLoader();
+  } else {
+    window.addEventListener('load', hideLoader);
+  }
 
   if (document.getElementById('food-carousel')) {
-
     renderMenu();
     renderTopFoods();
+    renderTestimonials();
+    initFilters();
   }
+
+  // Initialize AOS with Exit support
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 1000,
+      once: false,   // Allow repeating animations
+      mirror: true,  // Allow animations when scrolling back up
+      easing: 'ease-in-out-cubic',
+      offset: 50     // Trigger earlier for better feel
+    });
+  }
+
   if (document.getElementById('food-name')) {
     loadDetail();
   }
@@ -203,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function openLightbox(imageSrc) {
   const modal = document.getElementById('lightbox-modal');
   const img = document.getElementById('lightbox-img');
-  
+
   if (modal && img) {
     img.src = imageSrc;
     modal.classList.add('active');
@@ -214,7 +305,7 @@ function openLightbox(imageSrc) {
 function closeLightbox(event) {
   // Only close if clicking the background or the close button, not the image itself
   if (event && event.target.id === 'lightbox-img') return;
-  
+
   const modal = document.getElementById('lightbox-modal');
   if (modal) {
     modal.classList.remove('active');
