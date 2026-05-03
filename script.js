@@ -236,6 +236,22 @@ function loadDetail() {
     });
   }
 
+   const flavorGrid = document.getElementById('flavor-grid');
+  if (flavorGrid && food.flavors) {
+    flavorGrid.innerHTML = '';
+    food.flavors.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'ingredient-item';
+      div.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>${item}</span>
+      `;
+      flavorGrid.appendChild(div);
+    });
+  }
+
+ 
+
   const waBtn = document.getElementById('wa-btn');
   if (waBtn) {
     const waMessage = `Halo Warung R3 Berkah, saya ingin memesan ${food.name}. Berapa harganya ya?`;

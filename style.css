@@ -1860,6 +1860,12 @@ footer {
   gap: 16px;
 }
 
+.flavor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
 .ingredient-item {
   display: flex;
   align-items: center;
@@ -2813,6 +2819,11 @@ footer {
   }
 
   .ingredients-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .flavor-grid {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
