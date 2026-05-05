@@ -165,8 +165,28 @@
       <!-- Items will be injected by JS -->
     </div>
     <div class="cart-footer">
+      <div class="cart-collapsible-header" onclick="toggleOrderInfo()">
+        <span class="cart-collapsible-title" data-i18n="cart-info-title">Detail Pemesanan </span>
+        <span class="chevron-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </span>
+      </div>
+      <div id="cart-order-body" class="cart-collapsible-body">
+        <div class="cart-field-wrapper">
+          <label for="customer-name" data-i18n="cart-name-label">Nama Pembeli :</label>
+          <input type="text" id="customer-name" data-i18n-placeholder="cart-name-placeholder" placeholder="Masukkan nama Anda...">
+        </div>
+        <div class="cart-field-wrapper">
+          <label for="pickup-time" data-i18n="cart-pickup-label">Waktu Pengambilan:</label>
+          <input type="text" id="pickup-time" data-i18n-placeholder="cart-pickup-placeholder" placeholder="Contoh: Jam 5 sore / Segera...">
+        </div>
+        <div class="cart-notes-wrapper">
+          <label for="cart-notes" data-i18n="cart-notes-label">Catatan Pesanan (Rasa/Topping):</label>
+          <textarea id="cart-notes" data-i18n-placeholder="cart-notes-placeholder" placeholder="Contoh: Seblak Level 5, Tanpa Sawi..."></textarea>
+        </div>
+      </div>
       <div class="cart-total">
-        <span data-i18n="cart-total">Total:</span>
+        <span data-i18n="cart-total">Total Keseluruhan:</span>
         <span id="cart-total-amount">Rp 0</span>
       </div>
       <button class="btn-checkout" onclick="checkoutWA()">

@@ -388,6 +388,20 @@ function applyTranslations() {
     if (translations[currentLang] && translations[currentLang][key]) {
       el.innerHTML = translations[currentLang][key];
     }
+    
+    // Handle Placeholders
+    const placeholderKey = el.getAttribute('data-i18n-placeholder');
+    if (placeholderKey && translations[currentLang] && translations[currentLang][placeholderKey]) {
+      el.setAttribute('placeholder', translations[currentLang][placeholderKey]);
+    }
+  });
+
+  // Support for non-i18n elements that need placeholder translation
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[currentLang] && translations[currentLang][key]) {
+      el.setAttribute('placeholder', translations[currentLang][key]);
+    }
   });
 
   // Update Button Text & Icon
@@ -480,6 +494,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Shopping Cart Logic ---
 let cart = JSON.parse(localStorage.getItem('r3_cart')) || [];
+
+function toggleOrderInfo() {
+  const body = document.getElementById('cart-order-body');
+  const header = document.querySelector('.cart-collapsible-header');
+  if (body && header) {
+    body.classList.toggle('collapsed');
+    header.classList.toggle('collapsed-icon');
+  }
+}
 
 function toggleCart() {
   const drawer = document.getElementById('cart-drawer');
@@ -584,7 +607,27 @@ function updateCartUI() {
 function checkoutWA() {
   if (cart.length === 0) return;
 
+  const nameEl = document.getElementById('customer-name');
+  const customerName = nameEl ? nameEl.value.trim() : "";
+
   let message = currentLang === 'en' ? "*Order Summary - Warung R3 Berkah*\n\n" : "*Ringkasan Pesanan - Warung R3 Berkah*\n\n";
+  
+  if (customerName) {
+    const nameLabel = currentLang === 'en' ? "Customer Name" : "Nama Customer";
+    message += `👤 *${nameLabel}: ${customerName}*\n`;
+  }
+
+  const pickupEl = document.getElementById('pickup-time');
+  const pickupTime = pickupEl ? pickupEl.value.trim() : "";
+  if (pickupTime) {
+    const pickupLabel = currentLang === 'en' ? "Pickup Time" : "Waktu Ambil";
+    message += `⏰ *${pickupLabel}: ${pickupTime}*\n`;
+  }
+
+  if (customerName || pickupTime) {
+    message += `━━━━━━━━━━━━━━━━━━\n\n`;
+  }
+
   let totalOrder = 0;
 
   cart.forEach(item => {
@@ -599,7 +642,15 @@ function checkoutWA() {
 
   const totalText = currentLang === 'en' ? "Total Amount" : "Total Keseluruhan";
   message += `━━━━━━━━━━━━━━━━━━\n`;
-  message += `💰 *${totalText}: Rp ${totalOrder.toLocaleString('id-ID')}*`;
+  message += `💰 *${totalText}: Rp ${totalOrder.toLocaleString('id-ID')}*\n\n`;
+
+  // Add Notes if any
+  const notesEl = document.getElementById('cart-notes');
+  if (notesEl && notesEl.value.trim() !== '') {
+    const notesTitle = currentLang === 'en' ? "Notes (Flavor/Topping):" : "Catatan (Rasa/Topping):";
+    message += `📝 *${notesTitle}*\n`;
+    message += `_"${notesEl.value.trim()}"_`;
+  }
 
   const waUrl = `https://wa.me/6285147191733?text=${encodeURIComponent(message)}`;
   window.open(waUrl, '_blank');
