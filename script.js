@@ -221,7 +221,7 @@ function scrollCarousel(direction) {
   const container = document.getElementById('food-carousel');
   if (!container) return;
 
-  const scrollAmount = 340; 
+  const scrollAmount = 340;
   const halfWidth = container.scrollWidth / 2;
 
   if (direction === 'right') {
@@ -264,19 +264,19 @@ function initAutoScroll() {
       clearTimeout(window.resumeScrollTimer);
       window.resumeScrollTimer = setTimeout(() => {
         isPaused = false;
-      }, 5000); 
+      }, 5000);
     });
   });
 }
 
 function startContinuousScroll() {
   if (rafId) cancelAnimationFrame(rafId);
-  
+
   function loop() {
     const container = document.getElementById('food-carousel');
     if (container && !isPaused) {
       container.scrollLeft += scrollSpeed;
-      
+
       const halfWidth = container.scrollWidth / 2;
       if (container.scrollLeft >= halfWidth) {
         container.scrollLeft = 0;
@@ -284,7 +284,7 @@ function startContinuousScroll() {
     }
     rafId = requestAnimationFrame(loop);
   }
-  
+
   rafId = requestAnimationFrame(loop);
 }
 
