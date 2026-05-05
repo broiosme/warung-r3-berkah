@@ -127,6 +127,10 @@ function renderMenu(filter = 'all') {
             </div>
           </div>
           <a href="detail.html?id=${food.id}" class="btn-detail">${btnText}</a>
+          <button onclick="addToCart(${food.id})" class="btn-add-cart">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span data-i18n="add-to-cart">Tambah</span>
+          </button>
         </div>
         <div class="food-card-img-box">
           <img src="${food.image}" alt="${name}">
@@ -346,6 +350,22 @@ function loadDetail() {
       : `Halo Warung R3 Berkah, saya ingin memesan ${name}. Berapa harganya ya?`;
     waBtn.href = `https://wa.me/6285147191733?text=${encodeURIComponent(waMessage)}`;
   }
+
+  // Add Detail Page Add to Cart Button
+  const orderBtnContainer = document.querySelector('.food-detail-actions');
+  if (orderBtnContainer) {
+    const addBtn = document.createElement('button');
+    addBtn.className = 'btn-primary';
+    addBtn.style.background = 'var(--foreground)';
+    addBtn.style.marginTop = '10px';
+    addBtn.innerHTML = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      <span data-i18n="add-to-cart">Tambah ke Keranjang</span>
+    `;
+    addBtn.onclick = () => addToCart(id);
+    orderBtnContainer.appendChild(addBtn);
+    applyTranslations(); // To translate the new button
+  }
 }
 
 // Hide Loader Function
@@ -458,36 +478,132 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Lightbox Logic
-function openLightbox(imageSrc) {
-  const modal = document.getElementById('lightbox-modal');
-  const img = document.getElementById('lightbox-img');
+// --- Shopping Cart Logic ---
+let cart = JSON.parse(localStorage.getItem('r3_cart')) || [];
 
-  if (modal && img) {
-    img.src = imageSrc;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
+function toggleCart() {
+  const drawer = document.getElementById('cart-drawer');
+  const overlay = document.getElementById('cart-overlay');
+  if (drawer && overlay) {
+    drawer.classList.toggle('open');
+    overlay.classList.toggle('active');
   }
 }
 
-function closeLightbox(event) {
-  // Only close if clicking the background or the close button, not the image itself
-  if (event && event.target.id === 'lightbox-img') return;
+function addToCart(productId) {
+  const food = foods.find(f => f.id === productId);
+  if (!food) return;
 
-  const modal = document.getElementById('lightbox-modal');
-  if (modal) {
-    modal.classList.remove('active');
-    document.body.style.overflow = ''; // Restore scrolling
-    // Clear src after animation
-    setTimeout(() => {
-      document.getElementById('lightbox-img').src = '';
-    }, 300);
+  const existingItem = cart.find(item => item.id === productId);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      id: productId,
+      name: food.name,
+      name_en: food.name_en,
+      price: food.price,
+      image: food.image,
+      quantity: 1
+    });
+  }
+
+  saveCart();
+  updateCartUI();
+  
+  // Open cart drawer after adding
+  const drawer = document.getElementById('cart-drawer');
+  if (drawer && !drawer.classList.contains('open')) {
+    toggleCart();
   }
 }
 
-// Close lightbox on Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeLightbox();
+function updateQuantity(productId, delta) {
+  const item = cart.find(i => i.id === productId);
+  if (!item) return;
+
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    cart = cart.filter(i => i.id !== productId);
   }
-});
+
+  saveCart();
+  updateCartUI();
+}
+
+function saveCart() {
+  localStorage.setItem('r3_cart', JSON.stringify(cart));
+}
+
+function updateCartUI() {
+  const cartCount = document.getElementById('cart-count');
+  const cartItemsContainer = document.getElementById('cart-items');
+  const cartTotalAmount = document.getElementById('cart-total-amount');
+
+  if (!cartCount || !cartItemsContainer || !cartTotalAmount) return;
+
+  // Update total items count
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  cartCount.innerText = totalItems;
+
+  // Render items
+  cartItemsContainer.innerHTML = '';
+  let totalOrder = 0;
+
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `<p style="text-align:center; padding: 40px 0; color: var(--muted);" data-i18n="cart-empty">Keranjang kosong</p>`;
+    applyTranslations();
+  } else {
+    cart.forEach(item => {
+      const priceVal = parseInt(item.price.replace(/[^0-9]/g, ''));
+      totalOrder += priceVal * item.quantity;
+      
+      const name = currentLang === 'en' ? (item.name_en || item.name) : item.name;
+
+      const itemEl = document.createElement('div');
+      itemEl.className = 'cart-item';
+      itemEl.innerHTML = `
+        <img src="${item.image}" alt="${name}" class="cart-item-img">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${name}</div>
+          <div class="cart-item-price">${item.price}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+            <span>${item.quantity}</span>
+            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+          </div>
+        </div>
+      `;
+      cartItemsContainer.appendChild(itemEl);
+    });
+  }
+
+  cartTotalAmount.innerText = `Rp ${totalOrder.toLocaleString('id-ID')}`;
+}
+
+function checkoutWA() {
+  if (cart.length === 0) return;
+
+  let message = currentLang === 'en' ? "*Order Summary - Warung R3 Berkah*\n\n" : "*Ringkasan Pesanan - Warung R3 Berkah*\n\n";
+  let totalOrder = 0;
+
+  cart.forEach(item => {
+    const name = currentLang === 'en' ? (item.name_en || item.name) : item.name;
+    const priceVal = parseInt(item.price.replace(/[^0-9]/g, ''));
+    const itemTotal = priceVal * item.quantity;
+    totalOrder += itemTotal;
+    
+    message += `✅ *${name}*\n`;
+    message += `   ${item.quantity} x ${item.price} = Rp ${itemTotal.toLocaleString('id-ID')}\n\n`;
+  });
+
+  const totalText = currentLang === 'en' ? "Total Amount" : "Total Keseluruhan";
+  message += `━━━━━━━━━━━━━━━━━━\n`;
+  message += `💰 *${totalText}: Rp ${totalOrder.toLocaleString('id-ID')}*`;
+
+  const waUrl = `https://wa.me/6285147191733?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, '_blank');
+}
+
+// Initial UI Update
+document.addEventListener('DOMContentLoaded', updateCartUI);

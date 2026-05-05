@@ -104,7 +104,13 @@ const translations = {
     "detail-ingredients": "Bahan-bahan",
     "detail-flavors": "Varian Rasa",
     "detail-order": "Pesan via WhatsApp",
-    "detail-popular": "Menu Terpopuler"
+    "detail-popular": "Menu Terpopuler",
+    "cart-title": "Keranjang Belanja",
+    "cart-total": "Total Keseluruhan:",
+    "cart-checkout": "Pesan via WhatsApp",
+    "cart-empty": "Keranjang Anda kosong",
+    "add-to-cart": "Tambah ke Keranjang",
+    "order-summary": "Ringkasan Pesanan"
   },
   en: {
     // Navbar
@@ -211,6 +217,12 @@ const translations = {
     "detail-ingredients": "Ingredients",
     "detail-flavors": "Flavor Variations",
     "detail-order": "Order via WhatsApp",
-    "detail-popular": "Most Popular Menu"
+    "detail-popular": "Most Popular Menu",
+    "cart-title": "Shopping Cart",
+    "cart-total": "Grand Total:",
+    "cart-checkout": "Checkout to WhatsApp",
+    "cart-empty": "Your cart is empty",
+    "add-to-cart": "Add to Cart",
+    "order-summary": "Order Summary"
   }
 };
