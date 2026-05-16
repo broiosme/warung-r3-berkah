@@ -658,3 +658,33 @@ function checkoutWA() {
 
 // Initial UI Update
 document.addEventListener('DOMContentLoaded', updateCartUI);
+
+// Lightbox Logic
+function openLightbox(imgSrc) {
+  const modal = document.getElementById('lightbox-modal');
+  const img = document.getElementById('lightbox-img');
+  if (modal && img) {
+    img.src = imgSrc;
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      modal.classList.add('active');
+    }, 10);
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+}
+
+function closeLightbox() {
+  const modal = document.getElementById('lightbox-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 300);
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Close lightbox on Esc key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});

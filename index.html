@@ -140,8 +140,8 @@
       <div class="about-img-side" data-aos="zoom-3d-in">
         <div class="about-image-wrapper">
           <div class="about-decor-square"></div>
-          <div class="about-img-container img-1" onclick="openLightbox('assets/warung-saya.jpeg')">
-            <img src="assets/warung-saya.jpeg" alt="Warung R3 Berkah" class="about-img-main">
+          <div class="about-img-container img-1" onclick="openLightbox('assets/gambar_warung(1).jpeg')">
+            <img src="assets/gambar_warung(1).jpeg" alt="Warung R3 Berkah" class="about-img-main">
             <div class="img-overlay">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -152,8 +152,8 @@
               </svg>
             </div>
           </div>
-          <div class="about-img-container img-2" onclick="openLightbox('assets/foto-utama-seblak.jpeg')">
-            <img src="assets/foto-utama-seblak.jpeg" alt="Seblak Spesial R3" class="about-img-main">
+          <div class="about-img-container img-2" onclick="openLightbox('assets/gambar_warung(2).jpeg')">
+            <img src="assets/gambar_warung(2).jpeg" alt="Seblak Spesial R3" class="about-img-main">
             <div class="img-overlay">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -644,11 +644,15 @@
     </div>
   </div>
 
+  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+  </div>
+
   <script src="data.js"></script>
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script src="translations.js"></script>
   <script src="script.js" defer></script>
-
 </body>
 
 </html>
