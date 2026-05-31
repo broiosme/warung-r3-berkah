@@ -30,7 +30,7 @@ const foods = [
     description_en: "A variety of fried sausages and tempura served with savory sauce and chili topping.",
     ingredients: ["Sosis Sapi", "Sosis Ayam", "Bakso Ikan", "Tempura", "Nugget", "Bakpao", "Siomay"],
     ingredients_en: ["Beef Sausage", "Chicken Sausage", "Fish Balls", "Tempura", "Nugget", "Bakpao", "Siomay"],
-    flavors: ["Saus Pedas","Saus Tidak Pedas", "Bumbu Balado", "Bumbu Jagung"],
+    flavors: ["Saus Pedas", "Saus Tidak Pedas", "Bumbu Balado", "Bumbu Jagung"],
     flavors_en: ["Spicy Sauce", "Non-Spicy Sauce", "Balado Seasoning", "Corn Seasoning"],
   },
   {
@@ -132,59 +132,59 @@ const foods = [
     description_en: "Instant fruit-flavored drink with various refreshing options.",
     ingredients: ["Bubuk JasJus", "Es Batu", "Air Mineral"],
     ingredients_en: ["JasJus Powder", "Ice Cubes", "Mineral Water"],
-    flavors: ["Stroberi", "Sirsak", "Mangga", "Jeruk", "anggur", "Jeruk Peras", "Jeruk Nipis", "Melon" ],
+    flavors: ["Stroberi", "Sirsak", "Mangga", "Jeruk", "anggur", "Jeruk Peras", "Jeruk Nipis", "Melon"],
     flavors_en: ["Strawberry", "Soursop", "Mango", "Orange", "Grape", "Squeezed Orange", "Lime", "Melon"],
   },
 
 ];
 
-// const testimonials = [
-//   {
-//     id: 1,
-//     name: "Budi Santoso",
-//     role: "Pelanggan Setia",
-//     comment: "Seblaknya bener-bener mantap! Bumbunya meresap dan pedasnya pas banget di lidah.",
-//     rating: 5,
-//     avatar: "https://i.pravatar.cc/150?u=budi"
-//   },
-//   {
-//     id: 2,
-//     name: "Siti Aminah",
-//     role: "Pecinta Pedas",
-//     comment: "Sosis koceknya juara, bumbunya beda dari yang lain. Tahu koceknya juga krispi banget.",
-//     rating: 5,
-//     avatar: "https://i.pravatar.cc/150?u=siti"
-//   },
-//   {
-//     id: 3,
-//     name: "Andi Wijaya",
-//     role: "Pelajar",
-//     comment: "Harganya ramah di kantong pelajar, porsinya banyak. Es campurnya seger banget abis makan yang pedes-pedes.",
-//     rating: 4,
-//     avatar: "https://i.pravatar.cc/150?u=andi"
-//   },
-//   {
-//     id: 4,
-//     name: "Rina Kartika",
-//     role: "Ibu Rumah Tangga",
-//     comment: "Camilan favorit keluarga! Tahu koceknya nagih banget, anak-anak juga suka sosis bakarnya karena sausnya enak.",
-//     rating: 5,
-//     avatar: "https://i.pravatar.cc/150?u=rina"
-//   },
-//   {
-//     id: 5,
-//     name: "Dedi Kurniawan",
-//     role: "Ojek Online",
-//     comment: "Sering dapet orderan di sini, emang baunya wangi banget bikin pengen beli terus. Akhirnya nyoba sendiri emang mantap!",
-//     rating: 5,
-//     avatar: "https://i.pravatar.cc/150?u=dedi"
-//   },
-//   {
-//     id: 6,
-//     name: "Maya Sari",
-//     role: "Food Blogger",
-//     comment: "Seblak dengan kearifan lokal yang dieksekusi dengan sangat baik. Kebersihan tempat dan pelayanannya jempolan.",
-//     rating: 5,
-//     avatar: "https://i.pravatar.cc/150?u=maya"
-//   }
-// ];
+const testimonials = [
+  {
+    id: 1,
+    name: "eko",
+    role: "Pelanggan",
+    comment: "warung mnatp bagus murah juga dan strategis",
+    rating: 5,
+    avatar: "assets/man.png"
+  },
+  {
+    id: 2,
+    name: "Fais",
+    role: "Pelanggan",
+    comment: "saya sangat suka dengan seblak nya, harganya terjangkau dan rasanya mantap",
+    rating: 5,
+    avatar: "assets/man.png"
+  },
+  {
+    id: 3,
+    name: "SUGIK",
+    role: "Pelanggan",
+    comment: "makanannya enak enak",
+    rating: 5,
+    avatar: "assets/man.png"
+  },
+  {
+    id: 4,
+    name: "rafi",
+    role: "Pelanggan",
+    comment: "asli eenak banget makanannya raurr",
+    rating: 5,
+    avatar: "assets/man.png"
+  },
+  {
+    id: 5,
+    name: "Kiki",
+    role: "Pelanggan",
+    comment: "Emm soal rasa dijamin mantulll",
+    rating: 5,
+    avatar: "assets/woman.png"
+  },
+  {
+    id: 6,
+    name: "Arief",
+    role: "Pelanggan",
+    comment: "Soal rasa gak usah diragukan lagi harga bersahabat",
+    rating: 5,
+    avatar: "assets/man.png"
+  }
+];

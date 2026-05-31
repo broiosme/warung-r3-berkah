@@ -41,9 +41,9 @@ window.addEventListener('scroll', () => {
 
   let current = '';
   sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    if (pageYOffset >= sectionTop - 100) {
-      current = section.getAttribute('id');
+    const id = section.getAttribute('id');
+    if (id && window.scrollY >= section.offsetTop - 100) {
+      current = id;
     }
   });
 
@@ -81,6 +81,8 @@ function toggleLanguage() {
 function renderMenu(filter = 'all') {
   const container = document.getElementById('food-carousel');
   if (!container) return;
+
+  container.scrollLeft = 0; // Reset scroll position on filter/render
 
   // Show Skeleton Loading State
   container.innerHTML = '';
@@ -279,11 +281,14 @@ function startContinuousScroll() {
   function loop() {
     const container = document.getElementById('food-carousel');
     if (container && !isPaused) {
-      container.scrollLeft += scrollSpeed;
+      // Only scroll if content overflows the container
+      if (container.scrollWidth > container.clientWidth) {
+        container.scrollLeft += scrollSpeed;
 
-      const halfWidth = container.scrollWidth / 2;
-      if (container.scrollLeft >= halfWidth) {
-        container.scrollLeft = 0;
+        const halfWidth = container.scrollWidth / 2;
+        if (container.scrollLeft >= halfWidth) {
+          container.scrollLeft = 0;
+        }
       }
     }
     rafId = requestAnimationFrame(loop);
@@ -351,20 +356,10 @@ function loadDetail() {
     waBtn.href = `https://wa.me/6285147191733?text=${encodeURIComponent(waMessage)}`;
   }
 
-  // Add Detail Page Add to Cart Button
-  const orderBtnContainer = document.querySelector('.food-detail-actions');
-  if (orderBtnContainer) {
-    const addBtn = document.createElement('button');
-    addBtn.className = 'btn-primary';
-    addBtn.style.background = 'var(--foreground)';
-    addBtn.style.marginTop = '10px';
-    addBtn.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-      <span data-i18n="add-to-cart">Tambah ke Keranjang</span>
-    `;
+  // Bind Detail Page Add to Cart Button
+  const addBtn = document.getElementById('add-to-cart-btn-detail');
+  if (addBtn) {
     addBtn.onclick = () => addToCart(id);
-    orderBtnContainer.appendChild(addBtn);
-    applyTranslations(); // To translate the new button
   }
 }
 
@@ -673,7 +668,12 @@ function openLightbox(imgSrc) {
   }
 }
 
-function closeLightbox() {
+function closeLightbox(e) {
+  // If an event is passed, check if the click target is inside the content (e.g. the image itself).
+  // We only close if clicking the overlay background or the close button.
+  if (e && e.target && e.target.closest('.lightbox-content')) {
+    return;
+  }
   const modal = document.getElementById('lightbox-modal');
   if (modal) {
     modal.classList.remove('active');
